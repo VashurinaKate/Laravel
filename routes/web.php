@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\AgregatorController;
 
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
@@ -28,6 +30,18 @@ Route::get('/about', function () {
     return view('about');
 })
     ->name('about');
+
+Route::get('/comment', [CommentController::class, 'index'])
+    ->name('comment');
+
+Route::match(['post', 'get'], '/addComment', [CommentController::class, 'store'])
+    ->name('addComment');
+
+Route::get('/agregator', [AgregatorController::class, 'index'])
+    ->name('agregator');
+
+Route::match(['post', 'get'], '/getData', [AgregatorController::class, 'store'])
+    ->name('getData');
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::get('/', AdminController::class)->name('index');

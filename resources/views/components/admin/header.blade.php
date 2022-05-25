@@ -5,7 +5,7 @@
   </button>
   <div class="navbar-nav">
     <div class="nav-item text-nowrap">
-      <a class="nav-link px-3" href="#">Выход</a>
+      <a class="nav-link px-3" href="{{ route('welcome') }}">Выход</a>
     </div>
   </div>
 </header>
