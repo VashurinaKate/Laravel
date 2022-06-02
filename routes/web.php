@@ -52,7 +52,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
 Route::get('/categories', [CategoryController::class, 'index'])
     ->name('categories');
 
-Route::get('/categories/news', [NewsController::class, 'index'])
+Route::get('/categories/{id}', [NewsController::class, 'index'])
+    ->where('id', '\d+')
     ->name('news');
 
 Route::get('/categories/news/{id}', [NewsController::class, 'show'])

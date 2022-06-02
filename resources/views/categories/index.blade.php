@@ -3,7 +3,7 @@
     <h3>Категории</h3>
     <div class="list-group">
         @forelse($categories as $category)
-        <a href="{{ route('news') }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+        <a href="{{ route('news', ['id' => $category->id]) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
             <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
             <div class="d-flex gap-2 w-100 justify-content-between">
             <div>

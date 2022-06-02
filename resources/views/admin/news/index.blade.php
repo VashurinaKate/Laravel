@@ -26,7 +26,22 @@
             </tr>
             </thead>
             <tbody>
+            @forelse($news as $newsItem)
+                <tr>
+                    <td>{{ $newsItem->id }}</td>
+                    <td>{{ $newsItem->title }}</td>
+                    <td>{{ $newsItem->author }}</td>
+                    <td>{{ $newsItem->status }}</td>
+                    <td>{{ $newsItem->created_at }}</td>
+                    <td>
+                        <a href="{{ route('admin.news.edit', ['news' => $newsItem->id]) }}">Ред.</a> &nbsp;
+                        <a href="#">Удалить</a>
+                    </td>
 
+                </tr>
+            @empty
+            <div>Новостей нет</div>
+            @endforelse
             </tbody>
         </table>
     </div>

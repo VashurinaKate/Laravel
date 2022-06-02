@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    public function index()
+    public function index(int $categoryId)
     {
         $model = app(News::class);
-        $news = $model->getNews();
+        $news = $model->getNewsByCategory($categoryId);
         return view('news.index', [
             'news' => $news
         ]);

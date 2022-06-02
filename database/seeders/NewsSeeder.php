@@ -23,14 +23,16 @@ class NewsSeeder extends Seeder
         $data = [];
         $faker = Factory::create();
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $title = $faker->jobTitle();
             $data[] = [
-                'category_id' => 1,
+                'category_id' => $faker->randomDigitNot(0),
                 'title' => $title,
                 'slug' => \Str::slug($title),
+                'image' => $faker->imageUrl(640, 480, 'animals', true),
                 'author' => $faker->name(),
-                'description' => $faker->text(150)
+                'description' => $faker->text(150),
+                'created_at' => $faker->date()
             ];
         }
         return $data;

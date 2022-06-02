@@ -28,7 +28,8 @@ class CategorySeeder extends Seeder
         for ($i=0; $i<10; $i++) {
             $data[] = [
                 'title' => $faker->jobTitle(),
-                'description' => $faker->text(150)
+                'description' => $faker->text(150),
+                'created_at' => $faker->date()
             ];
         }
         return $data;
