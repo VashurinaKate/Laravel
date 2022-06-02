@@ -22,11 +22,29 @@
         <tr>
             <th scope="col">#ID</th>
             <th scope="col">Наименовнаие</th>
+            <th scope="col">Описание</th>
             <th scope="col">Дата добавления</th>
+            <th scope="col">Управление</th>
         </tr>
         </thead>
         <tbody>
+            @forelse($categories as $category)
+                <tr>
+                    <td>{{ $category->id }}</td>
+                    <td>{{ $category->title }}</td>
+                    <td>{{ $category->description }}</td>
+                    <td>{{ $category->created_at }}</td>
+                    <td>
+                        <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">Ред.</a> &nbsp;
+                        <a href="#">Удалить</a>
+                    </td>
 
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="4">Записей нет</td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
     </div>
