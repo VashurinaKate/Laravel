@@ -15,6 +15,7 @@
 
     <h2>Section title</h2>
     <div class="table-responsive">
+        @include('inc.messages')
         <table class="table table-striped table-sm">
             <thead>
             <tr>
@@ -34,15 +35,15 @@
                     <td>{{ $newsItem->status }}</td>
                     <td>{{ $newsItem->created_at }}</td>
                     <td>
-                        <a href="{{ route('admin.news.edit', ['news' => $newsItem->id]) }}">Ред.</a> &nbsp;
+                        <a href="{{ route('admin.news.edit', ['news' => $newsItem]) }}">Ред.</a> &nbsp;
                         <a href="#">Удалить</a>
                     </td>
-
                 </tr>
             @empty
             <div>Новостей нет</div>
             @endforelse
             </tbody>
         </table>
+        {{ $news ->links() }}
     </div>
 @endsection

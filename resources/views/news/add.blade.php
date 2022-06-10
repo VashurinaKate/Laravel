@@ -3,6 +3,8 @@
 @section('content')
 <div class="col-md-7 col-lg-8">
     <h4 class="mb-3">Добавть новость</h4>
+    @include('inc.messages')
+
     <form class="needs-validation" novalidate>
         <div class="row g-3">
         <div class="col-sm-6">
@@ -33,5 +35,5 @@
         </div>
     </form>
 </div>
-    
+
 @endsection
