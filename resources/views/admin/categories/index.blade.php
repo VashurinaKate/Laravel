@@ -19,6 +19,8 @@
     <div class="table-responsive">
     <table class="table table-striped table-sm">
         <thead>
+        @include('inc.messages')
+
         <tr>
             <th scope="col">#ID</th>
             <th scope="col">Наименовнаие</th>
@@ -31,7 +33,7 @@
             @forelse($categories as $category)
                 <tr>
                     <td>{{ $category->id }}</td>
-                    <td>{{ $category->title }}</td>
+                    <td>{{ $category->title }} ({{ $category->news_count }})</td>
                     <td>{{ $category->description }}</td>
                     <td>{{ $category->created_at }}</td>
                     <td>
@@ -47,5 +49,6 @@
             @endforelse
         </tbody>
     </table>
+        {{ $categories->links() }}
     </div>
 @endsection

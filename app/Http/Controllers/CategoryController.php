@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Queries\QueryBuilderCategories;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(QueryBuilderCategories $categories)
     {
-        $model = app(Category::class);
-        $categories = $model->getCategories();
         return view('categories.index', [
-            'categories' => $categories
+            'categories' => $categories->getCategories()
         ]);
     }
 }

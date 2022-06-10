@@ -1,6 +1,6 @@
 HTTP/1.0 201 Created
 Cache-Control: no-cache, private
 Content-Type:  application/json
-Date:          Wed, 25 May 2022 16:38:21 GMT
+Date:          Thu, 02 Jun 2022 18:35:21 GMT
 
-{"username":"wasturina","comment":"rtbvfrf"}
+{"username":"test","comment":"\u0434\u043e\u0438\u043e\u0438\u043e"}
