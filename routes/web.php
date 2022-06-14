@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AgregatorController;
 
 use App\Http\Controllers\Admin\IndexController as AdminController;
@@ -31,11 +31,14 @@ Route::get('/about', function () {
 })
     ->name('about');
 
-Route::get('/comment', [CommentController::class, 'index'])
-    ->name('comment');
+Route::get('/reviews', [ReviewController::class, 'index'])
+    ->name('reviews');
 
-Route::match(['post', 'get'], '/addComment', [CommentController::class, 'store'])
-    ->name('addComment');
+Route::get('/reviews/create', [ReviewController::class, 'create'])
+    ->name('reviews.create');
+
+Route::match(['post', 'get'], '/reviews/store', [ReviewController::class, 'store'])
+    ->name('reviews.store');
 
 Route::get('/agregator', [AgregatorController::class, 'index'])
     ->name('agregator');

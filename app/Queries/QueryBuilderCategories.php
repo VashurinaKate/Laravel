@@ -23,10 +23,4 @@ class QueryBuilderCategories implements QueryBuilder
             ->withCount('news')
             ->paginate(10);
     }
-
-//    public function getCategory(int $id)
-//    {
-//        return Category::select(['id', 'title', 'description', 'created_at'])
-//            ->findOrFail($id);
-//    }
 }

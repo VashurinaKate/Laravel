@@ -6,7 +6,9 @@
     <a href="<?=route('about')?>">О нас</a>
     <a href="<?=route('categories')?>">Категории</a>
     <a href="<?=route('news.add')?>">Добавить новость</a>
-    <a href="<?=route('comment')?>">Оставить отзыв</a>
+
+    <a href="<?=route('reviews')?>">Отзывы</a>
+
     <a href="<?=route('agregator')?>">Получить данные из источника</a>
 
 </div>

@@ -22,7 +22,7 @@
         <div class="col-12">
             <label for="comment" class="form-label">Комментарий</label>
             <div class="input-group has-validation">
-            <span class="input-group-text"></></span>
+            <span class="input-group-text"><></span>
             <textarea class="form-control" name="comment" id="comment" placeholder="Комментарий">{{ !!old('comment')}}</textarea>
             <div class="invalid-feedback">
                 Your comment is required.
@@ -30,6 +30,7 @@
             </div>
         </div>
         <button type="submit" class="btn btn-secondary">Отправить</button>
+        </div>
     </form>
 </div>
 
