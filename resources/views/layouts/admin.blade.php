@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Dashboard Template · Bootstrap v5.1</title>
-    
+
     <!-- Bootstrap core CSS -->
 <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
@@ -35,12 +36,12 @@
       }
     </style>
 
-    
+
     <!-- Custom styles for this template -->
     <link href="{{ asset('dashboard.css') }}" rel="stylesheet">
   </head>
   <body>
-    
+
 <x-admin.header></x-admin.header>
 
 <div class="container-fluid">

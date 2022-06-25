@@ -20,7 +20,8 @@
             <thead>
             <tr>
                 <th scope="col">#ID</th>
-                <th scope="col">Наименовнаие</th>
+                <th scope="col">#CATEGORY_ID</th>
+                <th scope="col">Наименование</th>
                 <th scope="col">Автор</th>
                 <th scope="col">Статус</th>
                 <th scope="col">Дата добавления</th>
@@ -29,14 +30,15 @@
             <tbody>
             @forelse($news as $newsItem)
                 <tr>
-                    <td>{{ $newsItem->id }}</td>
+                    <td>{{ $newsItem->id }}
+                    <td>{{ $newsItem->category_id }}</td>
                     <td>{{ $newsItem->title }}</td>
                     <td>{{ $newsItem->author }}</td>
                     <td>{{ $newsItem->status }}</td>
                     <td>{{ $newsItem->created_at }}</td>
                     <td>
                         <a href="{{ route('admin.news.edit', ['news' => $newsItem]) }}">Ред.</a> &nbsp;
-                        <a href="#">Удалить</a>
+                        <a href="javascript:;" class="delete" rel="{{ $newsItem->id }}">Удалить</a>
                     </td>
                 </tr>
             @empty
@@ -47,3 +49,35 @@
         {{ $news ->links() }}
     </div>
 @endsection
+
+{{--@push('js')--}}
+    <script type="text/javascript">
+        console.log('from log');
+        document.addEventListener("DOMContentLoaded", function () {
+            const elToDelete = document.querySelectorAll(".delete");
+            elToDelete.forEach((value, key) => {
+                value.addEventListener('click', function () {
+                    const id = this.getAttribute('rel');
+                    if(confirm(`Подтвердите удаление записи с #ID ${id} ?`)) {
+                        send('/admin/news/' + id).then(() => {
+                            location.reload();
+                        });
+                    };
+                });
+            });
+        });
+
+        async function send(url) {
+            let response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+
+            let result = await response.json();
+
+            return result.ok;
+        }
+    </script>
+{{--@endpush--}}

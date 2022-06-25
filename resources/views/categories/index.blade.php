@@ -1,6 +1,8 @@
 @extends('layouts.main')
 @section('content')
-    <h3>Категории</h3>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2 class="h2">Категории</h2>
+    </div>
     <div class="list-group">
         @forelse($categories as $category)
         <a href="{{ route('news', ['id' => $category->id]) }}" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">

@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\Controller;
+
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ReviewController;
@@ -63,5 +66,9 @@ Route::get('/categories/news/{id}', [NewsController::class, 'show'])
     ->where('id', '\d+')
     ->name('news.show');
 
-Route::get('/categories/news/add', [NewsController::class, 'add'])
+Route::get('/news/add', [NewsController::class, 'add'])
     ->name('news.add');
+
+Route::match(['post', 'get'], '/news/store', [NewsController::class, 'store'])
+    ->name('news.store');
+
