@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateRequest;
 use App\Models\Category;
 use App\Models\News;
 use App\Queries\QueryBuilderNews;
@@ -45,7 +46,9 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => ['required', 'string']
+            'title' => ['required', 'string', 'min:5', 'max:250'],
+            'author' => ['required', 'string'],
+            'description' => ['required', 'string', 'min:50']
         ]);
 
         $validated = $request->except(['_token', 'image']);
@@ -55,10 +58,10 @@ class NewsController extends Controller
 
         if ($news) {
             return redirect()->route('admin.news.index')
-                ->with('success', 'Запись успешно добавлена');
+                ->with('success', trans('message.admin.news.create.success'));
         }
 
-        return back()->with('error', 'Ошибка добавления');
+        return back()->with('error', trans('message.admin.news.create.fail'));
     }
 
     /**
@@ -94,9 +97,9 @@ class NewsController extends Controller
      * @param News $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(UpdateRequest $request, News $news)
     {
-        $validated = $request->except(['_token', 'image']);
+        $validated = $request->validated();
 
         $validated['slug'] = \Str::slug($validated['title']);
 
@@ -104,10 +107,10 @@ class NewsController extends Controller
 
         if ($news->save()) {
             return redirect()->route('admin.news.index')
-                ->with('success', 'Запись успешно обновлена');
+                ->with('success', trans('message.admin.news.update.success'));
         }
 
-        return back()->with('error', 'Ошибка обновления');
+        return back()->with('error', trans('message.admin.news.update.fail'));
     }
 
     /**
@@ -118,6 +121,14 @@ class NewsController extends Controller
      */
     public function destroy(News $news)
     {
-        //
+        try {
+            $news->delete();
+
+            return response()->json('ok');
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+
+            return response()->json('error', 400);
+        }
     }
 }

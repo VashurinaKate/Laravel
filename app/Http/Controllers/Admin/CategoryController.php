@@ -39,14 +39,19 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string', 'min:10']
+        ]);
+
         $validated = $request->only(['title', 'description']);
         $category = new Category($validated); //Category::create($validated);
         if($category->save()) {
             return redirect()->route('admin.categories.index')
-                ->with('success', 'Запись успешно добавлена');
+                ->with('success', trans('message.admin.categories.create.success'));
         }
 
-        return back()->with('error', 'Ошибка добавления');
+        return back()->with('error', trans('message.admin.categories.create.fail'));
     }
 
     /**
@@ -89,10 +94,10 @@ class CategoryController extends Controller
         $category = $category->fill($validated);
         if($category->save()) {
             return redirect()->route('admin.categories.index')
-                ->with('success', 'Запись успешно обновлена');
+                ->with('success', trans('message.admin.categories.update.success'));
         }
 
-        return back()->with('error', 'Ошибка обновления');
+        return back()->with('error', trans('message.admin.categories.update.fail'));
     }
 
     /**
@@ -103,6 +108,14 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        try {
+            $category->delete();
+
+            return response()->json('ok');
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+
+            return response()->json('error', 400);
+        }
     }
 }

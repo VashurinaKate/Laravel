@@ -38,7 +38,7 @@
                     <td>{{ $category->created_at }}</td>
                     <td>
                         <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">Ред.</a> &nbsp;
-                        <a href="#">Удалить</a>
+                        <a href="javascript:;" class="delete" rel="{{ $category->id }}">Удалить</a>
                     </td>
 
                 </tr>
@@ -52,3 +52,32 @@
         {{ $categories->links() }}
     </div>
 @endsection
+
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const elToDelete = document.querySelectorAll(".delete");
+        elToDelete.forEach((value, key) => {
+            value.addEventListener('click', function () {
+                const id = this.getAttribute('rel');
+                if(confirm(`Подтвердите удаление записи с #ID ${id} ?`)) {
+                    send('/admin/categories/' + id).then(() => {
+                        location.reload();
+                    });
+                };
+            });
+        });
+    });
+
+    async function send(url) {
+        let response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        });
+
+        let result = await response.json();
+
+        return result.ok;
+    }
+</script>

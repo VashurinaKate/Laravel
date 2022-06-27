@@ -1,7 +1,10 @@
 @extends('layouts.main')
 @section('title') Список новостей @parent @stop
 @section('content')
-    <h3>Новости по категории</h3>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h2 class="h2">Новости по категории {{ $category->title }}</h2>
+    </div>
+
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
         @forelse($news as $newsItem)
         <div class="col">
@@ -24,5 +27,6 @@
         <div>Новостей в данной категории нет</div>
         @endforelse
     </div>
+    {{ $news ->links() }}
 @endsection
 

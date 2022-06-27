@@ -2,7 +2,9 @@
 @section('content')
 
     <div class="col-md-7 col-lg-8">
-        <h4 class="mb-3">Редактировать новость</h4>
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h2 class="h2">Редактировать новость</h2>
+        </div>
         @include('inc.messages')
         <form method="post" action="{{ route('admin.news.update', ['news' => $news]) }}" class="needs-validation" novalidate>
             @csrf
@@ -13,7 +15,7 @@
                     <select class="form-control" name="category_id" id="category_id">
                         @foreach($categories as $category)
                             <option value="{{ $category->id }}"
-                                    @if($category->id === $news->category_id)) selected @endif>{{ $category->title }}</option>
+                                    @if($category->id === $news->category_id) selected @endif>{{ $category->title }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -37,20 +39,20 @@
                 <div class="col-sm-6">
                     Статус
                     <div class="form-check">
-                        <input @if($news->status === 'draft') checked @endif class="form-check-input" type="radio" name="draft" id="flexRadioDefault1">
-                        <label class="form-check-label" for="flexRadioDefault1">
+                        <input class="form-check-input" type="radio" name="status" id="draft" value="draft" @if($news->status === 'draft') checked @endif>
+                        <label class="form-check-label" for="draft">
                             Draft
                         </label>
                     </div>
                     <div class="form-check">
-                        <input @if($news->status === 'active') checked @endif class="form-check-input" type="radio" name="active" id="flexRadioDefault2">
-                        <label class="form-check-label" for="flexRadioDefault2">
+                        <input class="form-check-input" type="radio" name="status" id="active" value="active" @if($news->status === 'active') checked @endif>
+                        <label class="form-check-label" for="active">
                             Active
                         </label>
                     </div>
                     <div class="form-check">
-                        <input @if($news->status === 'blocked') checked @endif class="form-check-input" type="radio" name="blocked" id="flexRadioDefault3">
-                        <label class="form-check-label" for="flexRadioDefault3">
+                        <input class="form-check-input" type="radio" name="status" id="blocked" value="blocked" @if($news->status === 'blocked') checked @endif>
+                        <label class="form-check-label" for="blocked">
                             Blocked
                         </label>
                     </div>
