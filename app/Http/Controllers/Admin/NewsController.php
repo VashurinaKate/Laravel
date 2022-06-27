@@ -46,7 +46,9 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => ['required', 'string']
+            'title' => ['required', 'string', 'min:5', 'max:250'],
+            'author' => ['required', 'string'],
+            'description' => ['required', 'string', 'min:50']
         ]);
 
         $validated = $request->except(['_token', 'image']);

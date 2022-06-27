@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\News;
 use App\Queries\QueryBuilderNews;
-//use Illuminate\Http\Request;
+use Illuminate\Http\Request;
 use Route;
-use Request;
 
 class NewsController extends Controller
 {
@@ -17,7 +16,7 @@ class NewsController extends Controller
         $category = Category::where('id', $id)->get('title');
 
         return view('news.index', [
-            'news' => $news->getNews($id),
+            'news' => $news->getNewsByCategory($id),
             'category' => $category[0],
         ]);
     }
@@ -46,7 +45,9 @@ class NewsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => ['required', 'string']
+            'title' => ['required', 'string', 'min:5', 'max:250'],
+            'author' => ['required', 'string'],
+            'description' => ['required', 'string', 'min:50']
         ]);
 
         $validated = $request->except(['_token', 'image']);
@@ -56,9 +57,9 @@ class NewsController extends Controller
 
         if ($news) {
             return redirect()->route('categories')
-                ->with('success', trans('message.admin.news.create.success'));
+                ->with('success', trans('message.news.add.success'));
         }
 
-        return back()->with('error', trans('message.admin.news.create.fail'));
+        return back()->with('error', trans('message.news.add.fail'));
     }
 }

@@ -52,7 +52,6 @@
 
 {{--@push('js')--}}
     <script type="text/javascript">
-        console.log('from log');
         document.addEventListener("DOMContentLoaded", function () {
             const elToDelete = document.querySelectorAll(".delete");
             elToDelete.forEach((value, key) => {
