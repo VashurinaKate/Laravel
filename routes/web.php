@@ -13,6 +13,8 @@ use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 
+use App\Http\Controllers\Account\IndexController as AccountController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,11 +51,18 @@ Route::get('/agregator', [AgregatorController::class, 'index'])
 Route::match(['post', 'get'], '/getData', [AgregatorController::class, 'store'])
     ->name('getData');
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
-    Route::get('/', AdminController::class)->name('index');
-    Route::resource('/categories', AdminCategoryController::class);
-    Route::resource('/news', AdminNewsController::class);
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/account', AccountController::class)
+        ->name('account');
+    Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function() {
+        Route::get('/', AdminController::class)->name('index');
+        Route::resource('/categories', AdminCategoryController::class);
+        Route::resource('/news', AdminNewsController::class);
+    });
 });
+
+
+
 
 Route::get('/categories', [CategoryController::class, 'index'])
     ->name('categories');
@@ -72,3 +81,7 @@ Route::get('/news/add', [NewsController::class, 'add'])
 Route::match(['post', 'get'], '/news/store', [NewsController::class, 'store'])
     ->name('news.store');
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
