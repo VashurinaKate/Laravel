@@ -8,8 +8,8 @@
             @csrf
             <div class="row g-3">
                 <div class="col-sm-6">
-                    <label for="username" class="form-label">Имя пользователя</label>
-                    <input type="text" class="form-control" name="username" id="username" placeholder="username" value="{{ old('username') }}">
+                    <label for="username" class="form-label">Имя пользователя / email</label>
+                    <input type="text" class="form-control" name="username" id="username" placeholder="username" value="{{ Auth::user()->email }}">
                 </div>
 
                 <div class="col-12">
@@ -19,7 +19,7 @@
                         <textarea class="form-control" name="review" id="review" placeholder="Комментарий">{{ !!old('review')}}</textarea>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-secondary">Отправить</button>
+                <div><button type="submit" class="btn btn-secondary">Отправить</button></div>
             </div>
         </form>
     </div>
