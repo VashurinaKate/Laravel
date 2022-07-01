@@ -5,7 +5,9 @@
 
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <a href="{{ route('reviews.create') }}" class="btn btn-sm btn-outline-secondary">Добавить отзыв</a>
+                @auth
+                    <a href="{{ route('reviews.create') }}" class="btn btn-sm btn-outline-secondary">Добавить отзыв</a>
+                @endauth
             </div>
         </div>
     </div>

@@ -28,7 +28,7 @@
 
             <div class="col-sm-6">
                 <label for="author" class="form-label">Автор</label>
-                <input type="text" class="form-control" name="author" id="author" placeholder="" value="{{ old('author') }}" required>
+                <input type="text" class="form-control" name="author" id="author" placeholder="" value="{{ Auth::user()->name }}" required>
                 <div class="invalid-feedback">
                     Valid author is required.
                 </div>

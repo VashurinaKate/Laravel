@@ -2,7 +2,7 @@
   <div class="position-sticky pt-3">
     <ul class="nav flex-column">
       <li class="nav-item">
-        <a class="nav-link @if(request()->routeIs('admin.index')) active @endif" aria-current="page" href="{{ route('admin.index') }}">
+{{--        <a class="nav-link @if(request()->routeIs('admin.index')) active @endif" aria-current="page" href="{{ route('admin.index') }}">--}}
           <span data-feather="home"></span>
           Главная
         </a>
@@ -19,6 +19,12 @@
           Новости
         </a>
       </li>
+        <li class="nav-item">
+            <a class="nav-link @if(request()->routeIs('admin.profile.*')) active @endif" href="{{ route('admin.profile.index') }}">
+                <span data-feather="shopping-cart"></span>
+                Профили
+            </a>
+        </li>
       <li class="nav-item">
         <a class="nav-link" href="#">
           <span data-feather="users"></span>

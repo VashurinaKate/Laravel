@@ -12,6 +12,7 @@ use App\Http\Controllers\AgregatorController;
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\NewsController as AdminNewsController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 
 use App\Http\Controllers\Account\IndexController as AccountController;
 
@@ -58,10 +59,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', AdminController::class)->name('index');
         Route::resource('/categories', AdminCategoryController::class);
         Route::resource('/news', AdminNewsController::class);
+        Route::resource('/profile', AdminProfileController::class);
+
     });
 });
-
-
 
 
 Route::get('/categories', [CategoryController::class, 'index'])
