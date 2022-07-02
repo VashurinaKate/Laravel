@@ -51,8 +51,8 @@ Route::match(['post', 'get'], '/reviews/store', [ReviewController::class, 'store
 Route::get('/agregator', [AgregatorController::class, 'index'])
     ->name('agregator');
 
-Route::match(['post', 'get'], '/getData', [AgregatorController::class, 'store'])
-    ->name('getData');
+//Route::match(['post', 'get'], '/getData', [AgregatorController::class, 'store'])
+//    ->name('getData');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/account', AccountController::class)
@@ -60,12 +60,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::get('/', AdminController::class)
             ->name('index');
-        Route::get('/parser', AdminParserController::class)
-            ->name('parser');
+//        Route::get('/parser', AdminParserController::class)
+//            ->name('parser');
         Route::resource('/categories', AdminCategoryController::class);
         Route::resource('/news', AdminNewsController::class);
         Route::resource('/profile', AdminProfileController::class);
-
+        Route::resource('/parser', AdminParserController::class);
+        Route::match(['post', 'get'], '/getData', [AdminParserController::class, 'parse'])
+            ->name('getData');
     });
 });
 
