@@ -1,8 +1,8 @@
 <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
   <div class="position-sticky pt-3">
-    <ul class="nav flex-column">
+    <ul class="nav nav-pills flex-column">
       <li class="nav-item">
-{{--        <a class="nav-link @if(request()->routeIs('admin.index')) active @endif" aria-current="page" href="{{ route('admin.index') }}">--}}
+        <a class="nav-link @if(request()->routeIs('admin.index')) active @endif" aria-current="page" href="{{ route('admin.index') }}">
           <span data-feather="home"></span>
           Главная
         </a>
@@ -26,7 +26,7 @@
             </a>
         </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link @if(request()->routeIs('admin.parser.*')) active @endif" href="{{ route('admin.parser.index') }}">
           <span data-feather="users"></span>
           Загрузки
         </a>

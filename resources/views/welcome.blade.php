@@ -11,9 +11,9 @@
         <a href="{{ route('categories') }}" class="list-group-item list-group-item-action list-group-item-info">Категории</a>
         @auth
             <a href="{{ route('news.add') }}" class="list-group-item list-group-item-action list-group-item-info">Добавить новость</a>
+            <a href="{{ route('userParser') }}" class="list-group-item list-group-item-action list-group-item-info">Получить данные из источника</a>
         @endauth
         <a href="{{ route('reviews') }}" class="list-group-item list-group-item-action list-group-item-info">Отзывы</a>
-        <a href="{{ route('agregator') }}" class="list-group-item list-group-item-action list-group-item-info">Получить данные из источника</a>
         <a href="{{ route('account') }}" class="list-group-item list-group-item-action list-group-item-primary">Аккаунт</a>
 
     </ul>
