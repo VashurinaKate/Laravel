@@ -11,28 +11,20 @@
     </div>
     @include('inc.messages')
 
-{{--    {{ $data }}--}}
-{{--    <div class="card mb-3" style="max-width: 540px;">--}}
-{{--        <div class="row g-0">--}}
-{{--            <div class="col-md-4">--}}
-{{--                <img src="{{ $data['image'] }}" class="img-fluid rounded-start" alt="...">--}}
-{{--            </div>--}}
-{{--            <div class="col-md-8">--}}
-{{--                <div class="card-body">--}}
-{{--                    <h5 class="card-title">{{ $data['title'] }}</h5>--}}
-{{--                    <p class="card-text">{{ $data['description'] }}</p>--}}
-{{--                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
-
-{{--    @forelse($data['news'] as $news)--}}
-{{--        <div>--}}
-{{--            {{ $news->title }}--}}
-{{--        </div>--}}
-{{--    @empty--}}
-{{--        <div>Новостей нет</div>--}}
-{{--    @endforelse--}}
+    <div class="row">
+        @forelse($parsedNews as $newsItem)
+                <div class="col-sm-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $newsItem->title }}</h5>
+                            <p class="card-text">{{ $newsItem->description }}</p>
+                            <a href="{{ $newsItem->link }}" target="_blank" class="btn btn-primary">Подробнее</a>
+                        </div>
+                    </div>
+                </div>
+        @empty
+            <div>Новостей нет</div>
+        @endforelse
+    </div>
 @endsection
 

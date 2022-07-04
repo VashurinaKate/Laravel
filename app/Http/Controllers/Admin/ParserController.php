@@ -3,24 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ParsedNews;
+use App\Queries\QueryBuilderParsedNews;
 use App\Services\Contract\Parser;
 use Illuminate\Http\Request;
 
 class ParserController extends Controller
 {
-//    public function __invoke(Request $request, Parser $parser)
-//    {
-//        dd($parser->setLink('https://news.yandex.ru/music.rss')
-//            ->parse()
-//        );
-//    }
-    public function index(Request $request, Parser $parser) {
-        $json = file_get_contents('../public/parser.txt');
-        $data = json_decode($json);
-//        dd($data);
-
+    public function index(QueryBuilderParsedNews $parsedNews) {
         return view('admin.parser.index', [
-            'data' => $data
+            'parsedNews' => $parsedNews->getParsedNews()
         ]);
     }
 
@@ -36,9 +28,19 @@ class ParserController extends Controller
         $url = $request->get('url');
         $data = $parser->setLink($url)->parse();
 
-        if ($data) {
-            file_put_contents('../public/parser.txt', response()->json($data), 201);
+        if (isset($data['news'])) {
+            for ($i = 0; $i < count($data['news']); $i++) {
+                ParsedNews::create([
+                    'title' => $data['news'][$i]['title'],
+                    'link' => $data['news'][$i]['link'],
+                    'guid' => $data['news'][$i]['guid'],
+                    'description' => $data['news'][$i]['description'],
+                    'created_at' => $data['news'][$i]['pubDate']
+                ]);
+            }
+        }
 
+        if ($data) {
             return redirect()->route('admin.parser.index')
                 ->with('success', trans('message.admin.parser.create.success'));
         }

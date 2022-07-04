@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\AgregatorController;
+use App\Http\Controllers\ParserController;
 
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
@@ -48,11 +48,14 @@ Route::get('/reviews/create', [ReviewController::class, 'create'])
 Route::match(['post', 'get'], '/reviews/store', [ReviewController::class, 'store'])
     ->name('reviews.store');
 
-Route::get('/agregator', [AgregatorController::class, 'index'])
-    ->name('agregator');
+Route::get('/userParser', [ParserController::class, 'index'])
+    ->name('userParser');
 
-//Route::match(['post', 'get'], '/getData', [AgregatorController::class, 'store'])
-//    ->name('getData');
+Route::get('/userParser/create', [ParserController::class, 'create'])
+    ->name('userParser.create');
+
+Route::match(['post', 'get'], '/parseData', [ParserController::class, 'store'])
+    ->name('parseData');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/account', AccountController::class)
