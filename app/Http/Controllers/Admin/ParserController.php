@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\NewsParsing;
+use App\Models\Category;
+use App\Models\News;
 use App\Models\ParsedNews;
 use App\Models\Resource;
 use App\Queries\QueryBuilderParsedNews;
@@ -16,6 +18,7 @@ use Illuminate\Support\Facades\Storage;
 class ParserController extends Controller
 {
     public function index(QueryBuilderResources $resources) {
+
         return view('admin.parser.index', [
             'resources' => $resources->getResources()
         ]);
@@ -30,6 +33,9 @@ class ParserController extends Controller
             'link' => ['required', 'url'],
         ]);
 
+        $e = explode('/', $validated['link']);
+        $validated['filename'] = end($e);
+
         $resource = Resource::create($validated);
 
         if ($resource) {
@@ -40,15 +46,53 @@ class ParserController extends Controller
         return back()->with('error', trans('message.admin.resource.create.fail'));
     }
 
-    public function parse(QueryBuilderResources $resources) {
-        $urls = $resources->getUrls();
+    public function parse() {
+        $urls = Resource::all('link');
+
         foreach ($urls as $url) {
-            dispatch(new NewsParsing($url));
+//            dispatch(new NewsParsing($url->link));
+            dispatch_sync(new NewsParsing($url->link));
         }
 
-        return back()->with('success', "Новости добавлены в очередь");
+        return back()->with('success', "Новости добавлены в хранилище");
     }
 
+    public function sendNewsFromStorageToDB(int $id)
+    {
+        $fileName = Resource::where('id', $id)->get('filename')->first();
+
+        $data = json_decode(Storage::disk('local')->get('news/'.$fileName['filename']));
+
+        if ($data) {
+            $categoryToAdd = [
+                'title' => $data->title,
+                'description' => $data->description,
+                'created_at' => $data->lastBuildDate
+            ];
+            $category = new Category($categoryToAdd);
+
+            if($category->save()) {
+                $news = $data->news;
+
+                foreach ($news as $newsItem) {
+
+                    $newsToAdd = [
+                        'category_id' => $category->id,
+                        'title' => $newsItem->title,
+                        'description' => $newsItem->description,
+                        'created_at' => $newsItem->pubDate
+                    ];
+
+                    News::create($newsToAdd);
+                }
+                return redirect()->route('admin.categories.index')
+                    ->with('success', 'Категория с новостями добалена');
+            }
+            return back()->with('error', 'Ошибка парсинга категории');
+        }
+
+        return back()->with('error', 'Ошибка парсинга категории: попробуйте еще раз запустить очередь');
+    }
 
     public function destroy(Resource $resource)
     {

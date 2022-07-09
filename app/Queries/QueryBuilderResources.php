@@ -17,11 +17,6 @@ class QueryBuilderResources implements QueryBuilder
 
     public function getResources(): LengthAwarePaginator
     {
-        return Resource::select(['id', 'link'])->paginate(12);
-    }
-
-    public function getUrls(): Builder
-    {
-        return Resource::select(['link']);
+        return Resource::select(['id', 'link', 'filename'])->paginate(12);
     }
 }

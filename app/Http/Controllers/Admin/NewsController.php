@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\News\UpdateRequest;
 use App\Models\Category;
 use App\Models\News;
+use App\Models\ParsedNews;
 use App\Queries\QueryBuilderNews;
 use App\Services\UploadService;
 use Illuminate\Http\Request;
@@ -21,8 +22,6 @@ class NewsController extends Controller
      */
     public function index(QueryBuilderNews $news)
     {
-//        dd(Storage::disk('local')->get('news/army.rss'));
-
         return view('admin.news.index', [
             'news' => $news->getNews()
         ]);
@@ -138,12 +137,5 @@ class NewsController extends Controller
 
             return response()->json('error', 400);
         }
-    }
-
-    public function sendNewsFromQueueToDB()
-    {
-
-        return dd(json_encode(Storage::disk('local')->get('news/army.rss')));
-
     }
 }

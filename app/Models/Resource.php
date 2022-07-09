@@ -12,6 +12,7 @@ class Resource extends Model
     protected $table = "resources";
 
     protected $fillable = [
-        'link'
+        'link',
+        'filename'
     ];
 }

@@ -18,15 +18,19 @@
                 <tr>
                     <th scope="col">#ID</th>
                     <th scope="col">Ссылка на источник</th>
+                    <th scope="col">Название файла</th>
+                    <th scope="col">Управление</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($resources as $resource)
                     <tr>
-                        <td>{{ $resource->id }}
+                        <td>{{ $resource->id }}</td>
                         <td>{{ $resource->link }}</td>
+                        <td>{{ $resource->filename }}</td>
                         <td>
-                            <a href="javascript:;" class="delete" rel="{{ $resource->id }}">Удалить</a>
+                            <a href="{{ route('admin.sendNewsFromStorageToDB', ['id' => $resource->id]) }}">Парсить с этого источника</a>
+                            <a href="javascript:;" class="delete" style="color: red;" rel="{{ $resource->id }}">Удалить</a>
                         </td>
                     </tr>
                 @empty
@@ -37,35 +41,34 @@
         {{ $resources ->links() }}
     </div>
 
-    <script type="text/javascript">
-        document.addEventListener("DOMContentLoaded", function () {
-            const elToDelete = document.querySelectorAll(".delete");
-            elToDelete.forEach((value, key) => {
-                value.addEventListener('click', function () {
-                    const id = this.getAttribute('rel');
-                    if(confirm(`Подтвердите удаление записи с #ID ${id} ?`)) {
-                        send('/admin/parser/' + id).then(() => {
-                            location.reload();
-                        });
-                    };
-                });
-            });
-        });
-
-        async function send(url) {
-            let response = await fetch(url, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            });
-
-            let result = await response.json();
-
-            return result.ok;
-        }
-    </script>
-
 @endsection
 
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const elToDelete = document.querySelectorAll(".delete");
+        elToDelete.forEach((value, key) => {
+            value.addEventListener('click', function () {
+                const id = this.getAttribute('rel');
+                if(confirm(`Подтвердите удаление записи с #ID ${id} ?`)) {
+                    send('/admin/parser/' + id).then(() => {
+                        location.reload();
+                    });
+                };
+            });
+        });
+    });
+
+    async function send(url) {
+        let response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        });
+
+        let result = await response.json();
+
+        return result.ok;
+    }
+</script>
 
