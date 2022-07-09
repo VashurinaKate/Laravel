@@ -6,7 +6,7 @@
             <h2 class="h2">Редактировать новость</h2>
         </div>
         @include('inc.messages')
-        <form method="post" action="{{ route('admin.news.update', ['news' => $news]) }}" class="needs-validation" novalidate>
+        <form method="post" action="{{ route('admin.news.update', ['news' => $news]) }}" class="needs-validation" enctype="multipart/form-data" novalidate>
             @csrf
             @method('put')
             <div class="row g-3">
@@ -66,9 +66,12 @@
                     </div>
                 </div>
 
-                <div class="input-group mb-3">
-                    <input type="file" class="form-control" id="inputGroupFile02">
-                    <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                <div class="col-sm-6">
+                    <label for="image" class="form-label">Изображение</label>
+                    <input type="file" name="image" class="form-control" id="image">
+                    @if($news->image)
+                        <img src="{{ Storage::url($news->image) }}" alt="" style="width: 350px;">
+                    @endif
                 </div>
 
                 <div class="col-12">
@@ -81,9 +84,23 @@
                         </div>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-secondary">Отправить</button>
+                <div>
+                    <button type="submit" class="btn btn-success">Отправить</button>
+                </div>
             </div>
         </form>
     </div>
 
+{{--    @push('js')--}}
+    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+    <script>
+        ClassicEditor
+            .create(document.querySelector("#description"))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+{{--    @endpush--}}
 @endsection
+
+

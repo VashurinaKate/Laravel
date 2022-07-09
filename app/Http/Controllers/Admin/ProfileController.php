@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateRequest;
 use App\Models\User;
 use App\Queries\QueryBuilderProfiles;
 use Illuminate\Http\Request;

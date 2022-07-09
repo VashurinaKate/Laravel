@@ -69,8 +69,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/news', AdminNewsController::class);
         Route::resource('/profile', AdminProfileController::class);
         Route::resource('/parser', AdminParserController::class);
-        Route::match(['post', 'get'], '/getData', [AdminParserController::class, 'parse'])
-            ->name('getData');
+        Route::get('/parseNews', [AdminParserController::class, 'parse'])
+            ->name('parseNews');
+        Route::match(['post', 'get'], '/addResource', [AdminParserController::class, 'store'])
+            ->name('addResource');
     });
 });
 
@@ -90,8 +92,9 @@ Route::get('/categories/{id}', [NewsController::class, 'index'])
     ->where('id', '\d+')
     ->name('news');
 
-Route::get('/categories/news/{id}', [NewsController::class, 'show'])
-    ->where('id', '\d+')
+Route::get('/categories/news/{slug}', [NewsController::class, 'show'])
+//    ->where('id', '\d+')
+    ->where('slug', '[a-zA-Z0-9\-\-_]+')
     ->name('news.show');
 
 Route::get('/news/add', [NewsController::class, 'add'])

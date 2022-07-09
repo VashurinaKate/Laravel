@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateRequest;
+use App\Http\Requests\News\UpdateRequest;
 use App\Models\Category;
 use App\Models\News;
 use App\Queries\QueryBuilderNews;
+use App\Services\UploadService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 
 class NewsController extends Controller
@@ -19,6 +21,8 @@ class NewsController extends Controller
      */
     public function index(QueryBuilderNews $news)
     {
+//        dd(Storage::disk('local')->get('news/army.rss'));
+
         return view('admin.news.index', [
             'news' => $news->getNews()
         ]);
@@ -97,11 +101,15 @@ class NewsController extends Controller
      * @param News $news
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, News $news)
+    public function update(UpdateRequest $request, News $news, UploadService $uploadService)
     {
         $validated = $request->validated();
-
         $validated['slug'] = \Str::slug($validated['title']);
+
+        // file upload
+        if($request->hasFile('image')) {
+            $validated['image'] = $uploadService->uploadImage($request->file('image'));
+        }
 
         $news = $news->fill($validated);
 
@@ -130,5 +138,12 @@ class NewsController extends Controller
 
             return response()->json('error', 400);
         }
+    }
+
+    public function sendNewsFromQueueToDB()
+    {
+
+        return dd(json_encode(Storage::disk('local')->get('news/army.rss')));
+
     }
 }

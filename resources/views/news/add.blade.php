@@ -53,7 +53,9 @@
                 </div>
             </div>
         </div>
-        <button type="submit" style="margin-top: 30px;" class="btn btn-secondary">Отправить</button>
+        <div>
+            <button type="submit" style="margin-top: 30px;" class="btn btn-success">Отправить</button>
+        </div>
     </form>
 </div>
 

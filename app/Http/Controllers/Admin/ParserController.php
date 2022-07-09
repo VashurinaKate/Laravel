@@ -3,16 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\NewsParsing;
 use App\Models\ParsedNews;
+use App\Models\Resource;
 use App\Queries\QueryBuilderParsedNews;
+use App\Queries\QueryBuilderResources;
 use App\Services\Contract\Parser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ParserController extends Controller
 {
-    public function index(QueryBuilderParsedNews $parsedNews) {
+    public function index(QueryBuilderResources $resources) {
         return view('admin.parser.index', [
-            'parsedNews' => $parsedNews->getParsedNews()
+            'resources' => $resources->getResources()
         ]);
     }
 
@@ -20,31 +25,41 @@ class ParserController extends Controller
         return view('admin.parser.create');
     }
 
-    public function parse(Request $request, Parser $parser) {
-        $request->validate([
-           'url' => ['required', 'url']
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'link' => ['required', 'url'],
         ]);
 
-        $url = $request->get('url');
-        $data = $parser->setLink($url)->parse();
+        $resource = Resource::create($validated);
 
-        if (isset($data['news'])) {
-            for ($i = 0; $i < count($data['news']); $i++) {
-                ParsedNews::create([
-                    'title' => $data['news'][$i]['title'],
-                    'link' => $data['news'][$i]['link'],
-                    'guid' => $data['news'][$i]['guid'],
-                    'description' => $data['news'][$i]['description'],
-                    'created_at' => $data['news'][$i]['pubDate']
-                ]);
-            }
-        }
-
-        if ($data) {
+        if ($resource) {
             return redirect()->route('admin.parser.index')
-                ->with('success', trans('message.admin.parser.create.success'));
+                ->with('success', trans('message.admin.resource.create.success'));
         }
 
-        return back()->with('error', trans('message.admin.parser.create.fail'));
+        return back()->with('error', trans('message.admin.resource.create.fail'));
+    }
+
+    public function parse(QueryBuilderResources $resources) {
+        $urls = $resources->getUrls();
+        foreach ($urls as $url) {
+            dispatch(new NewsParsing($url));
+        }
+
+        return back()->with('success', "Новости добавлены в очередь");
+    }
+
+
+    public function destroy(Resource $resource)
+    {
+        try {
+            $resource->delete();
+
+            return response()->json('ok');
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+
+            return response()->json('error', 400);
+        }
     }
 }

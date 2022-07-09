@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\News;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -27,7 +27,7 @@ class UpdateRequest extends FormRequest
             'category_id' => ['required', 'integer', 'min:1'],
             'title' => ['required', 'string', 'min:5', 'max:250'],
             'author' => ['nullable', 'string', 'min:2', 'max:50'],
-            'image' => ['nullable', 'image', 'mimes:png,jpg'],
+            'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg'],
             'status' => ['required'],
             'description' => ['nullable', 'string'],
             'only_admin' => ['nullable', 'boolean']
