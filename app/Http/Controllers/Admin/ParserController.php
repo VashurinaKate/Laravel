@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\News;
 use App\Models\ParsedNews;
 use App\Models\Resource;
+use App\Queries\QueryBuilderCategories;
 use App\Queries\QueryBuilderParsedNews;
 use App\Queries\QueryBuilderResources;
 use App\Services\Contract\Parser;
@@ -19,8 +20,11 @@ class ParserController extends Controller
 {
     public function index(QueryBuilderResources $resources) {
 
+//        $files = Storage::disk('local')->allFiles('news');
+
         return view('admin.parser.index', [
-            'resources' => $resources->getResources()
+            'resources' => $resources->getResources(),
+//            'files' => $files
         ]);
     }
 
@@ -46,18 +50,20 @@ class ParserController extends Controller
         return back()->with('error', trans('message.admin.resource.create.fail'));
     }
 
-    public function parse() {
+    public function parseNews() {
         $urls = Resource::all('link');
 
         foreach ($urls as $url) {
 //            dispatch(new NewsParsing($url->link));
+//            dd($url->link);
+
             dispatch_sync(new NewsParsing($url->link));
         }
 
         return back()->with('success', "Новости добавлены в хранилище");
     }
 
-    public function sendNewsFromStorageToDB(int $id)
+    public function sendNewsFromStorageToDB(QueryBuilderCategories $categories, int $id)
     {
         $fileName = Resource::where('id', $id)->get('filename')->first();
 
@@ -67,7 +73,8 @@ class ParserController extends Controller
             $categoryToAdd = [
                 'title' => $data->title,
                 'description' => $data->description,
-                'created_at' => $data->lastBuildDate
+                'created_at' => $data->lastBuildDate,
+                'parsed' => true
             ];
             $category = new Category($categoryToAdd);
 

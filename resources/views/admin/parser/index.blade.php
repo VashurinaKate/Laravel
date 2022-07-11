@@ -29,8 +29,13 @@
                         <td>{{ $resource->link }}</td>
                         <td>{{ $resource->filename }}</td>
                         <td>
-                            <a href="{{ route('admin.sendNewsFromStorageToDB', ['id' => $resource->id]) }}">Парсить с этого источника</a>
-                            <a href="javascript:;" class="delete" style="color: red;" rel="{{ $resource->id }}">Удалить</a>
+{{--                            @if(!in_array('news/'.$resource->filename, $files))--}}
+                                <a href="{{ route('admin.sendNewsFromStorageToDB', ['id' => $resource->id]) }}" class="btn btn-success ">Парсить с этого источника</a>
+{{--                            @else--}}
+{{--                            Storage::disk('local')->exists('news/'.$resource->filename')--}}
+{{--                                <a href="{{ route('admin.sendNewsFromStorageToDB', ['id' => $resource->id]) }}" class="btn btn-success disabled">Уже есть в списке</a>--}}
+{{--                            @endif--}}
+                                <a href="javascript:;" class="btn btn-danger delete" rel="{{ $resource->id }}">Удалить</a>
                         </td>
                     </tr>
                 @empty

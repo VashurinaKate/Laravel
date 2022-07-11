@@ -47,6 +47,6 @@ class ParserService implements Parser
 
         $json = json_encode($data);
 
-        Storage::append('news/' . $fileName, $json);
+        Storage::append('news/' . $fileName, $json, null);
     }
 }

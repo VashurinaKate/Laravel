@@ -69,7 +69,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/news', AdminNewsController::class);
         Route::resource('/profile', AdminProfileController::class);
         Route::resource('/parser', AdminParserController::class);
-        Route::get('/parseNews', [AdminParserController::class, 'parse'])
+        Route::get('/parseNews', [AdminParserController::class, 'parseNews'])
             ->name('parseNews');
         Route::get('/sendNewsFromStorageToDB/{id}', [AdminParserController::class, 'sendNewsFromStorageToDB'])
             ->name('sendNewsFromStorageToDB');

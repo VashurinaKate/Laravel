@@ -36,8 +36,8 @@
                     <td>{{ $category->description }}</td>
                     <td>{{ $category->created_at }}</td>
                     <td>
-                        <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}">Ред.</a> &nbsp;
-                        <a href="javascript:;" class="delete" rel="{{ $category->id }}">Удалить</a>
+                        <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}" class="btn btn-success">Ред.</a> &nbsp;
+                        <a href="javascript:;" class="btn btn-danger delete" rel="{{ $category->id }}">Удалить</a>
                     </td>
 
                 </tr>

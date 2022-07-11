@@ -19,7 +19,7 @@ class QueryBuilderCategories implements QueryBuilder
 
     public function getCategories(): LengthAwarePaginator
     {
-        return Category::select(['id', 'title', 'description', 'created_at'])
+        return Category::select(['id', 'title', 'description', 'parsed', 'created_at'])
             ->withCount('news')
             ->paginate(10);
     }
