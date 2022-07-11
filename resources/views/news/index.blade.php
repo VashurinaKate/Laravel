@@ -9,14 +9,15 @@
         @forelse($news as $newsItem)
         <div class="col">
             <div class="card shadow-sm">
-            <img src="{{ $newsItem->image }}" alt="" style="width: 100px; height: 100px;">
-
+                @if($newsItem->image)
+                    <img src="{{ Storage::disk('upload')->url($newsItem->image) }}" alt="" style="width: 100px; height: 100px;">
+                @endif
                 <div class="card-body">
-                    <strong><a href="{{ route('news.show', ['id' => $newsItem->id]) }}">{{ $newsItem->title }}</a></strong>
+                    <strong><a href="{{ route('news.show', ['slug' => $newsItem->slug]) }}">{{ $newsItem->title }}</a></strong>
                     <p class="card-text">{{ $newsItem->description }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <a href="{{ route('news.show', ['id' => $newsItem->id]) }}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                        <a href="{{ route('news.show', ['slug' => $newsItem->slug]) }}" class="btn btn-sm btn-outline-secondary">Подробнее</a>
                     </div>
                     <small class="text-muted">Автор: {{ $newsItem->author }}</small>
                     </div>

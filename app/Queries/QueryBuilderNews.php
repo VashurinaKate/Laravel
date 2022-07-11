@@ -31,4 +31,9 @@ class QueryBuilderNews implements QueryBuilder
         return News::select(['id', 'title', 'author', 'description', 'image', 'created_at'])
             ->findOrFail($id);
     }
+
+    public function getNewsBySlug(string $slug): Builder
+    {
+        return News::where('slug', $slug);
+    }
 }

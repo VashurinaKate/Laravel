@@ -21,10 +21,10 @@ class NewsController extends Controller
         ]);
     }
 
-    public function show(QueryBuilderNews $news, $id)
+    public function show(QueryBuilderNews $news, string $slug)
     {
         return view('news.show', [
-            'news' => $news->getNewsById($id)
+            'news' => $news->getNewsBySlug($slug)->first()
         ]);
     }
 
